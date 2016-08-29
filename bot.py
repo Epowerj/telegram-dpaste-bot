@@ -12,7 +12,7 @@ def start(bot, update):
         
 
 def help(bot, update):
-        bot.sendMessage(update.message.chat_id, text='Info coming soon')
+        bot.sendMessage(update.message.chat_id, text='This bot is a front end for dpaste, an alternative to pastebin. Do /paste <text> and the bot will reply with a link.')
 
 
 def paste(bot, update): #TODO add support for newline
