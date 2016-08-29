@@ -1,6 +1,6 @@
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
+import logging, requests
 from key import apikey #get the key from key.py
 
 # Enable logging
@@ -13,6 +13,14 @@ def start(bot, update):
 
 def help(bot, update):
         bot.sendMessage(update.message.chat_id, text='Info coming soon')
+
+
+def paste(bot, update): #TODO add support for newline
+        dpaste_url = 'http://dpaste.com/api/v2/'
+        payload = {'content': update.message.text[7:], 'poster': update.message.from_user.first_name}
+        r = requests.post(dpaste_url, data=payload)
+
+        bot.sendMessage(update.message.chat_id, text= r.text)
         
 
 def error(bot, update, error):
@@ -25,6 +33,7 @@ def main():
 
         dp.add_handler(CommandHandler("start", start))
         dp.add_handler(CommandHandler("help", help))
+        dp.add_handler(CommandHandler("paste", paste))
 
         #dp.add_handler(MessageHandler([Filters.text], echo))
 
