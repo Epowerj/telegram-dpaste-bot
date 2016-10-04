@@ -1,6 +1,8 @@
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, InlineQueryHandler
 import logging, requests
+from uuid import uuid4
 from key import apikey #get the key from key.py
 
 # Enable logging
@@ -15,12 +17,40 @@ def help(bot, update):
         bot.sendMessage(update.message.chat_id, text='This bot is a front end for dpaste, an alternative to pastebin. Do /paste <text> and the bot will reply with a link.')
 
 
-def paste(bot, update): #TODO add support for newline
+def doPaste(content, user):
+        print("Doing paste...")
+
+        if content == "":
+            return "(no text entered)"
+
         dpaste_url = 'http://dpaste.com/api/v2/'
-        payload = {'content': update.message.text[7:], 'poster': update.message.from_user.first_name}
+        payload = {'content': content, 'poster': user}
         r = requests.post(dpaste_url, data=payload)
 
-        bot.sendMessage(update.message.chat_id, text= r.text)
+        return r.text
+
+
+def paste(bot, update):
+        link = doPaste(update.message.text[7:], update.message.from_user.first_name)
+
+        #dpaste_url = 'http://dpaste.com/api/v2/'
+        #payload = {'content': update.message.text[7:], 'poster': update.message.from_user.first_name}
+        #r = requests.post(dpaste_url, data=payload)
+
+        bot.sendMessage(update.message.chat_id, text= link)
+
+
+def inlinequery(bot, update):
+    query = update.inline_query.query
+    results = list()
+
+    results.append(InlineQueryResultArticle(id=uuid4(),
+                                            title="Get link",
+                                            input_message_content=InputTextMessageContent(
+                                                doPaste(query, update.inline_query.from_user.first_name)
+                                            )))
+
+    update.inline_query.answer(results)
         
 
 def error(bot, update, error):
@@ -34,6 +64,8 @@ def main():
         dp.add_handler(CommandHandler("start", start))
         dp.add_handler(CommandHandler("help", help))
         dp.add_handler(CommandHandler("paste", paste))
+
+        dp.add_handler(InlineQueryHandler(inlinequery))
 
         #dp.add_handler(MessageHandler([Filters.text], echo))
 
