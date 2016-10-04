@@ -31,7 +31,14 @@ def doPaste(content, user):
 
 
 def paste(bot, update):
-        link = doPaste(update.message.text[7:], update.message.from_user.first_name)
+        commandtext = update.message.text.split(' ', 1)
+
+        if len(commandtext) == 1:
+            commandtext = ""
+        else:
+            commandtext = commandtext[1]
+
+        link = doPaste(commandtext, update.message.from_user.first_name)
 
         #dpaste_url = 'http://dpaste.com/api/v2/'
         #payload = {'content': update.message.text[7:], 'poster': update.message.from_user.first_name}
