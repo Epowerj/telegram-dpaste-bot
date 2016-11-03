@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def start(bot, update):
         bot.sendMessage(update.message.chat_id, text='Welcome to dpastebot! Do /help for info')
-        
+
 
 def help(bot, update):
         bot.sendMessage(update.message.chat_id, text='This bot is a front end for dpaste, an alternative to pastebin. Do /paste <text> and the bot will reply with a link.')
@@ -58,7 +58,7 @@ def inlinequery(bot, update):
                                             )))
 
     update.inline_query.answer(results)
-        
+
 
 def error(bot, update, error):
         logger.warn('Update "%s" caused error "%s"' % (update, error))
@@ -72,7 +72,7 @@ def main():
         dp.add_handler(CommandHandler("help", help))
         dp.add_handler(CommandHandler("paste", paste))
 
-        dp.add_handler(InlineQueryHandler(inlinequery))
+        #dp.add_handler(InlineQueryHandler(inlinequery))
 
         #dp.add_handler(MessageHandler([Filters.text], echo))
 
