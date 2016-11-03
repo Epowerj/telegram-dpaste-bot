@@ -40,10 +40,6 @@ def paste(bot, update):
 
         link = doPaste(commandtext, update.message.from_user.first_name)
 
-        #dpaste_url = 'http://dpaste.com/api/v2/'
-        #payload = {'content': update.message.text[7:], 'poster': update.message.from_user.first_name}
-        #r = requests.post(dpaste_url, data=payload)
-
         bot.sendMessage(update.message.chat_id, text= link)
 
 
