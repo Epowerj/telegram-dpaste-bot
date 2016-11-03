@@ -1,3 +1,4 @@
+import os
 
-apikey = 'api key goes here'
+apikey = str(os.environ["BOTKEY"]) #use invironment variable or replace with string
 
