@@ -1,0 +1,6 @@
+{
+  "name": "telegram-dpaste-bot",
+  "description": "A Telegram bot for dpaste",
+  "repository": "https://github.com/Epowerj/telegram-dpaste-bot",
+  "keywords": ["python", "telegram", "chat bot" ]
+}
