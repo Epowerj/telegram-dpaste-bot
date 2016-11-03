@@ -14,7 +14,7 @@ def start(bot, update):
 
 
 def help(bot, update):
-        bot.sendMessage(update.message.chat_id, text='This bot is a front end for dpaste, an alternative to pastebin. Do /paste <text> and the bot will reply with a link.')
+        bot.sendMessage(update.message.chat_id, text='This bot is a front end for dpaste, an alternative to pastebin. Do /paste <text> and the bot will reply with a link.\nThis bot is currently running on an auto-sleep server, so it might take a while to respond for the first time')
 
 
 def doPaste(content, user):
